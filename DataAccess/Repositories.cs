@@ -12,8 +12,70 @@ namespace DataAccess
     {
         public IEnumerable<Breed> Get()
         {
-            var rrr = this.DB.Breed.FindAll<Cat>(x => x.BreedId >= 1, q => q.Cats);
+            var rrr = this._db.Breed.FindAll<Cat>(x => x.BreedId >= 1, q => q.Cats);
             return rrr;
+        }
+
+        public int BulkInsert()
+        {
+            var data = new List<Breed>
+            {
+                 new Breed{BreedName="AGGGGGGGGG" },
+                 new Breed{BreedName="GGGGGGGGGGG" },
+            };
+
+            return this._db.Breed.BulkInsert(data);
+        }
+
+        public bool Insert()
+        {
+            using(var trans = _db.BeginTransaction())
+            {
+                var data = new Breed
+                {
+                    BreedName = "Insert AT "+DateTime.UtcNow.ToShortDateString()
+                };
+
+                _db.Breed.Insert(data, trans);
+
+                data = new Breed
+                {
+                    BreedName = "Insert2 AT " + DateTime.UtcNow.ToShortDateString()
+                };
+
+                _db.Breed.Insert(data, trans);
+
+
+                trans.Commit();
+            }
+
+            return true;
+        }
+
+        public bool Update()
+        {
+            using (var trans = _db.BeginTransaction())
+            {
+                var data = new Breed
+                {
+                    BreedId = 24,
+                    BreedName = "DDDDABCaaa"
+                };
+                _db.Breed.Update(data, trans);
+
+
+                data = new Breed
+                {
+                    BreedId = 25,
+                    BreedName = "ddd"
+                };
+
+                _db.Breed.Update(data, trans);
+
+                trans.Commit();
+            }
+
+            return true;
         }
     }
 
@@ -21,7 +83,7 @@ namespace DataAccess
     {
         public IEnumerable<Cat> Get()
         {
-            return this.DB.Cat.FindAll();
+            return this._db.Cat.FindAll();
         }
     }
 }

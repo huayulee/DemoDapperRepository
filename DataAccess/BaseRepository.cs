@@ -8,7 +8,7 @@ namespace DataAccess
 {
     public abstract class BaseRepository
     {
-        protected PaymentAsiaPayDBContext DB = new PaymentAsiaPayDBContext("Server=DESKTOP-QT1HILT\\SQLEXPRESS;Database=School;Trusted_Connection=True;");
+        protected PaymentAsiaPayDBContext _db = new PaymentAsiaPayDBContext("Server=DESKTOP-QT1HILT\\SQLEXPRESS;Database=School;Trusted_Connection=True;");
 
     }
 }

@@ -11,14 +11,14 @@ namespace DapperRepository.Controllers
 {
     public class ValuesController : ApiController
     {
-        private PaymentAsiaPayDBContext DB = new PaymentAsiaPayDBContext("Server=DESKTOP-QT1HILT\\SQLEXPRESS;Database=School;Trusted_Connection=True;");
+        protected BreedRepository _br = new BreedRepository();
+
         // GET api/values
         [SwaggerOperation("GetAll")]
         [Route("GetBreeds")]
         public IHttpActionResult Get()
         {
-            var rrr = new BreedRepository();
-            return Ok(rrr.Get());
+            return Ok(_br.Get());
         }
 
         [SwaggerOperation("GetCat")]
@@ -30,12 +30,34 @@ namespace DapperRepository.Controllers
         }
 
         // GET api/values/5
+        [HttpGet]
         [SwaggerOperation("GetById")]
         [SwaggerResponse(HttpStatusCode.OK)]
         [SwaggerResponse(HttpStatusCode.NotFound)]
-        public string Get(int id)
+        [Route("Insert")]
+        public bool Insert()
         {
-            return "value";
+            return _br.Insert();
+        }
+
+        [HttpGet]
+        [SwaggerOperation("GetById")]
+        [SwaggerResponse(HttpStatusCode.OK)]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
+        [Route("BulkInsert")]
+        public int BulkInsert()
+        {
+            return _br.BulkInsert();
+        }
+
+        [HttpGet]
+        [SwaggerOperation("GetById")]
+        [SwaggerResponse(HttpStatusCode.OK)]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
+        [Route("Update")]
+        public bool Update()
+        {
+            return _br.Update();
         }
 
         // POST api/values
